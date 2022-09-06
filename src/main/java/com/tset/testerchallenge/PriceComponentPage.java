@@ -9,8 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.HashMap;
 
@@ -42,9 +40,15 @@ public class PriceComponentPage extends BasePage {
     public WebElement scrapSurcharge;
     @FindBy(xpath = "//span[contains(text(),'Alloy surcharge')]")
     public WebElement alloySurcharge;
+    @FindBy (xpath = "(//span[contains(@id,'edit-icon')])[2]")
+    public WebElement storageEditIcon;
+    @FindBy (xpath = "(//span[contains(@id,'edit-icon')])[4]")
+    public WebElement scrapEditIcon;
+    @FindBy (xpath = "(//span[contains(@id,'edit-icon')])[5]")
+    public WebElement alloyEditIcon;
 
-    @FindBy(xpath = "(//span[contains(@id,'thrash-icon')])[2]")
-    WebElement trashIcon;
+    @FindBy(xpath = "(//span[contains(@id,'thrash-icon')])[5]")
+    public WebElement trashIcon;
     @FindBy(xpath = "(//span[contains(@id,'edit-icon')])[2]")
     WebElement editIcon;
     @FindBy(xpath = "//p[text()=' This label is too short! ']")
@@ -170,26 +174,6 @@ public class PriceComponentPage extends BasePage {
 
     public String getTextFromElement(WebElement element) {
         return element.getText();
-    }
-
-    public boolean isRounded(){
-        String input1 = "0.7658";
-        double input1Rounded = Math.round(Double.parseDouble(input1) * 100.0) / 100.0;
-        String value = driver.findElement(By.xpath("//div[contains(text(),'0.77')]")).getAttribute("value");
-        double valueRounded = Double.parseDouble(value);
-        return (input1Rounded == valueRounded);
-    }
-
-    public boolean isRounded2(){
-
-        BigDecimal input = new BigDecimal("0.7658");
-
-        MathContext m = new MathContext(2); // 2 precision
-
-        // b1 is rounded using m
-        BigDecimal roundedValue = input.round(m);
-        return (input.equals(roundedValue));
-
     }
 
 }
