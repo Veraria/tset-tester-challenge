@@ -74,10 +74,6 @@ public class PriceComponentPage extends BasePage {
         element.click();
     }
 
-    public void waitUntilVisibilityOfElement(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
 
     public PriceComponentPage enterNewBaseValue(String value) {
 
