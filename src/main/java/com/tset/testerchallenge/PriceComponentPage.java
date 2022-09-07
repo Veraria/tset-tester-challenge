@@ -6,11 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.HashMap;
 
@@ -42,8 +37,18 @@ public class PriceComponentPage extends BasePage {
     public WebElement scrapSurcharge;
     @FindBy(xpath = "//span[contains(text(),'Alloy surcharge')]")
     public WebElement alloySurcharge;
+    @FindBy(xpath = "(//span[contains(@id,'edit-icon')])[4]")
+    public WebElement scrapEditIcon;
+    @FindBy(xpath = "(//span[contains(@id,'edit-icon')])[6]")
+    public WebElement alloyEditIcon;
+    @FindBy(xpath = "(//span[contains(@id,'edit-icon')])[2]")
+    public WebElement storageEditIcon;
+    @FindBy(xpath = "(//input[contains(@id,'value-input')])[1]")
+    public WebElement alloyValueField;
+    @FindBy(xpath = "(//span[contains(@id,'check-icon')])[6]")
+    public WebElement alloyRowCheckIcon;
 
-    @FindBy(xpath = "(//span[contains(@id,'thrash-icon')])[2]")
+    @FindBy(xpath = "(//span[contains(@id,'thrash-icon')])[5]")
     WebElement trashIcon;
     @FindBy(xpath = "(//span[contains(@id,'edit-icon')])[2]")
     WebElement editIcon;
@@ -51,9 +56,9 @@ public class PriceComponentPage extends BasePage {
     public WebElement labelErrorMessage;
     @FindBy(xpath = "//p[text()=' Cannot be negative! ']")
     public WebElement valueErrorMessage;
-    @FindBy (xpath = "(//div[contains(text(),'1.0')])[2]")
+    @FindBy(xpath = "(//div[contains(text(),'1.0')])[2]")
     public WebElement externalSurchargeValue;
-    @FindBy (xpath = "//div[contains(text(),'0.77')]")
+    @FindBy(xpath = "//div[contains(text(),'0.77')]")
     public WebElement internalSurchargeValue;
 
 
@@ -74,11 +79,6 @@ public class PriceComponentPage extends BasePage {
         element.click();
     }
 
-    public void waitUntilVisibilityOfElement(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
     public PriceComponentPage enterNewBaseValue(String value) {
 
         Actions actions = new Actions(driver);
@@ -91,9 +91,19 @@ public class PriceComponentPage extends BasePage {
 
     public PriceComponentPage enterNewValue(String value) {
 
-        valueTextField.click();
-        valueTextField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(valueTextField).contextClick();
+        valueTextField.clear();
         valueTextField.sendKeys(value);
+        return new PriceComponentPage(driver);
+    }
+
+    public PriceComponentPage editValue(String value) {
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(alloyValueField).contextClick();
+        alloyValueField.clear();
+        alloyValueField.sendKeys(value);
         return new PriceComponentPage(driver);
     }
 
@@ -135,8 +145,9 @@ public class PriceComponentPage extends BasePage {
 
     public PriceComponentPage addPriceComponents() {
 
-        labelTextField.click();
-        labelTextField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE)); // right click???
+        Actions actions = new Actions(driver);
+        actions.moveToElement(labelTextField).contextClick();
+        labelTextField.clear();
         inputComponentLabelAndComponentValue();
         return new PriceComponentPage(driver);
     }
@@ -145,17 +156,19 @@ public class PriceComponentPage extends BasePage {
         HashMap<String, String> priceComponents = new HashMap<>();
         priceComponents.put("Alloy surcharge", "2.15");
         priceComponents.put("Scrap surcharge", "3.14");
-        priceComponents.put("Internal surcharge", "0.7658"); //Internal surcharge: 0.7658
+        priceComponents.put("Internal surcharge", "0.7658");
         priceComponents.put("External surcharge", "1");
         priceComponents.put("Storage surcharge", "0.30");
 
         for (HashMap.Entry<String, String> set :
                 priceComponents.entrySet()) {
-            labelTextField.click();
-            labelTextField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            Actions actions = new Actions(driver);
+            actions.moveToElement(labelTextField).contextClick();
+            labelTextField.clear();
             labelTextField.sendKeys(set.getKey());
 
-            valueTextField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            actions.moveToElement(valueTextField).contextClick();
+            valueTextField.clear();
             valueTextField.sendKeys(set.getValue());
             waitForElementToBePresent("ghost-check-icon");
             clickingElementJavaScriptExecutor(rowCheckIcon);
@@ -174,26 +187,6 @@ public class PriceComponentPage extends BasePage {
 
     public String getTextFromElement(WebElement element) {
         return element.getText();
-    }
-
-    public boolean isRounded(){
-        String input1 = "0.7658";
-        double input1Rounded = Math.round(Double.parseDouble(input1) * 100.0) / 100.0;
-        String value = driver.findElement(By.xpath("//div[contains(text(),'0.77')]")).getAttribute("value");
-        double valueRounded = Double.parseDouble(value);
-        return (input1Rounded == valueRounded);
-    }
-
-    public boolean isRounded2(){
-
-        BigDecimal input = new BigDecimal("0.7658");
-
-        MathContext m = new MathContext(2); // 2 precision
-
-        // b1 is rounded using m
-        BigDecimal roundedValue = input.round(m);
-        return (input.equals(roundedValue));
-
     }
 
 }
