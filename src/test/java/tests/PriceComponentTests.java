@@ -33,10 +33,6 @@ public class PriceComponentTests extends BaseTest {
         PriceComponentPage priceComponentPage = new PriceComponentPage(driver);
         priceComponentPage.addPriceComponents();
 
-       // String expectedValue = priceComponentPage.getTextFromElement(priceComponentPage.externalSurchargeValue);
-        //	If value has no decimal digits, show a 0 as decimal digit; test input is 1
-      // Assert.assertEquals(1.0, Double.parseDouble(expectedValue), "The value should be 1.0 but it's " + Double.parseDouble(expectedValue));
-//Unable to locate element: {"method":"xpath","selector":"(//div[contains(text(),'1.0')])[2]"}
         String roundedValue = priceComponentPage.getTextFromElement(priceComponentPage.internalSurchargeValue);
         //	If value has more than 2 decimal digits, round to 2 decimal digits; test input is 0.7658
         Assert.assertEquals(0.77, Double.parseDouble(roundedValue));

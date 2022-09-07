@@ -1,15 +1,9 @@
 package tests;
 
-import com.tset.testerchallenge.PriceComponentPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 
 import java.time.Duration;
@@ -40,7 +34,7 @@ public class BaseTest {
     @AfterTest
     public void tearDown() {
 
-       //  driver.quit();
+         driver.quit();
     }
 
 }

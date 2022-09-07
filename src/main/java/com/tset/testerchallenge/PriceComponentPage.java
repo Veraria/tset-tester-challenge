@@ -6,9 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.Duration;
 import java.util.HashMap;
 
@@ -136,7 +133,7 @@ public class PriceComponentPage extends BasePage {
     public PriceComponentPage addPriceComponents() {
 
         labelTextField.click();
-        labelTextField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE)); // right click???
+        labelTextField.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         inputComponentLabelAndComponentValue();
         return new PriceComponentPage(driver);
     }
@@ -145,7 +142,7 @@ public class PriceComponentPage extends BasePage {
         HashMap<String, String> priceComponents = new HashMap<>();
         priceComponents.put("Alloy surcharge", "2.15");
         priceComponents.put("Scrap surcharge", "3.14");
-        priceComponents.put("Internal surcharge", "0.7658"); //Internal surcharge: 0.7658
+        priceComponents.put("Internal surcharge", "0.7658");
         priceComponents.put("External surcharge", "1");
         priceComponents.put("Storage surcharge", "0.30");
 
